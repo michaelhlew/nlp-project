@@ -1,0 +1,29 @@
+---
+title: "Tweet Filtering"
+format: html
+editor: visual
+---
+
+```{r}
+read_csv("trump_tweets.csv") %>% 
+  filter(is_retweet == "FALSE") %>% 
+  filter(datetime > "2019-12-31") %>% 
+    mutate(likes = favorites,
+         timestamp = datetime) %>%
+  select(text, likes, retweets, timestamp, id) -> trump
+
+write.csv(trump, "trump_filtered.csv")
+```
+
+```{r}
+read_csv("JoeBidenTweets.csv") %>% 
+  filter(timestamp >= "2020-01-01") %>% 
+  select(tweet, likes, retweets, timestamp, id) %>% 
+  mutate(text = tweet) %>% 
+  select(-tweet) %>% 
+  select(text, likes, retweets, timestamp, id) -> biden
+
+write.csv(biden, "biden_filtered.csv")
+```
+
+
